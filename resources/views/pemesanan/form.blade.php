@@ -16,12 +16,19 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="pelanggan_id">Nama Pelanggan</label>
-                            <select name="pelanggan_id" id="pelanggan_id" class="custom-select">
-                                <option value="" selected disabled hidden>--- Pilih Pelanggan---</option>
+                            <select name="pelanggan_id" id="pelanggan_id"
+                                class="custom-select @error('pelanggan_id') is-invalid @enderror">
+                                <option value="" selected disabled hidden>--- Pilih Pelanggan ---</option>
                                 @foreach ($pelanggan as $row)
-                                    <option value="{{ isset($row->id) }}">{{ $row->nama_pelanggan }}</option>
+                                    <option value="{{ $row->id }}"
+                                        {{ old('pelanggan_id') == $row->id ? 'selected' : '' }}>
+                                        {{ $row->nama_pelanggan }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('pelanggan_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         {{-- <div class="form-group">
                             <label for="kategori_id">Kategori</label>
@@ -37,19 +44,23 @@
                             <select name="barang_id" id="barang_id" class="custom-select">
                                 <option value="" selected disabled hidden>--- Pilih Barang---</option>
                                 @foreach ($barang as $row)
-                                    <option value="{{ isset($row->id) }}">{{ $row->nama_barang }}</option>
+                                    <option value="{{ $row->id }}"
+                                        {{ old('barang_id') == $row->id ? 'selected' : '' }}>
+                                        {{ $row->nama_barang }}
+                                    </option>
+                                    {{-- <option value="{{ isset($row->id) }}">{{ $row->nama_barang }}</option> --}}
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="jumlah">Jumlah</label>
-                            <input type="text" class="form-control @error('stok') is-invalid @enderror" id="jumlah"
-                                name="jumlah" value="{{ old('jumlah', isset($pemesanan) ? $pemesanan->jumlah : '') }}">
-                            @error('stok')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                            <input type="number" class="form-control @error('jumlah') is-invalid @enderror" id="jumlah"
+                                name="jumlah" min="1"
+                                value="{{ old('jumlah', isset($pemesanan) ? $pemesanan->jumlah : '') }}">
+                            @error('jumlah')
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+
                         </div>
 
                         <div class="form-group">

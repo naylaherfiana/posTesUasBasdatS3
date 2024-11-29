@@ -18,7 +18,10 @@
                             <select name="kategori_id" id="kategori_id" class="custom-select">
                                 <option value="" selected disabled hidden>--- Pilih Kategori---</option>
                                 @foreach ($kategori as $row)
-                                    <option value="{{ isset($row->id) }}">{{ $row->nama_kategori }}</option>
+                                    <option value="{{ $row->id }}"
+                                        {{ old('kategori_id') == $row->id ? 'selected' : '' }}>
+                                        {{ $row->nama_kategori }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
